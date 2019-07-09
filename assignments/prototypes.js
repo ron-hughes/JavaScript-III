@@ -41,8 +41,57 @@
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-/*
-  const mage = new Humanoid({
+
+function GameObject(attr) {
+  this.createdAt = attr.createdAt,
+  this.name = attr.name,
+  this.dimensions = attr.dimensions,
+  this.destroy = function () { return `${this.name} was removed from the game.`; };
+}
+
+
+
+CharacterStats.prototype = Object.create(GameObject.prototype); // connect charStats to gameObject
+
+ function CharacterStats(charStats) {
+  GameObject.call(this, charStats); 
+  this.healthPoints = charStats.healthPoints,
+  this.takeDamage = function () { return `${this.name} took damage`}
+  };
+
+
+Humanoid.prototype = Object.create(CharacterStats.prototype); // connect humanoid to charStats & gameObject
+
+function Humanoid(humanAttr) {
+  CharacterStats.call(this, humanAttr); // connect humanoid attr into charStats
+  this.team = humanAttr.team,
+  this.weapons = humanAttr.weapons,
+  this.language = humanAttr.language
+  this.greet = function() { return `${this.name} offers a greeting in ${this.language}`; } 
+};
+
+Heroes.prototype = Object.create(Humanoid.prototype);
+ function Heroes(heroesAttr) {
+   Humanoid.call(this, heroesAttr); // connect heroesAttr  into humanoid
+   this.punch = function() { return ``  }
+ };
+
+Villians.prototype = Object.create(Humanoid.prototype);
+ function Villians(villAttr) {
+   Humanoid.call(this, villAttr); // connect villAttr  into humanoid  
+   this.slice = function (){
+     return `${this.name} sliced a hero!`;
+   }
+ };
+
+//  function healthMeter() {
+//    let health = this.healthPoints;
+//       function name() {
+
+//       };
+//  }
+
+  const mage = new Heroes({
     createdAt: new Date(),
     dimensions: {
       length: 2,
@@ -57,8 +106,7 @@
     ],
     language: 'Common Tongue',
   });
-
-  const swordsman = new Humanoid({
+  const swordsman = new Heroes({
     createdAt: new Date(),
     dimensions: {
       length: 2,
@@ -74,7 +122,6 @@
     ],
     language: 'Common Tongue',
   });
-
   const archer = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -92,17 +139,50 @@
     language: 'Elvish',
   });
 
+  const darkElf = new Villians({
+    createdAt: new Date(),
+    dimensions: {
+    length: 4,
+    width: 2,
+    height: 3,
+    },
+    healthPoints: 5,
+    name: 'Poison Dart',
+    team: 'Wicked Men',
+    weapons: [
+      'Wand of Dispair',
+    ],
+    language: 'English',
+  });
+
+  const stoneMan = new Villians({
+    createdAt: new Date(),
+    dimensions: {
+    length: 4,
+    width: 2,
+    height: 3,
+    },
+    healthPoints: 5,
+    name: 'Stone Man',
+    team: 'Wicked Men',
+    weapons: [
+      'Wand of Dispair',
+    ],
+    language: 'English',
+  });
+
   console.log(mage.createdAt); // Today's date
   console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
   console.log(swordsman.healthPoints); // 15
-  console.log(mage.name); // Bruce
-  console.log(swordsman.team); // The Round Table
-  console.log(mage.weapons); // Staff of Shamalama
-  console.log(archer.language); // Elvish
-  console.log(archer.greet()); // Lilith offers a greeting in Elvish.
-  console.log(mage.takeDamage()); // Bruce took damage.
-  console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-*/
+  console.log(stoneMan.slice())
+  // console.log(mage.name); // Bruce
+  // console.log(swordsman.team); // The Round Table
+  // console.log(mage.weapons); // Staff of Shamalama
+  // console.log(archer.language); // Elvish
+  // console.log(archer.greet()); // Lilith offers a greeting in Elvish.
+  // console.log(mage.takeDamage()); // Bruce took damage.
+  // console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
+
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
